@@ -44,6 +44,5 @@ This project is optimized for deployment on static hosting platforms like **Clou
 The 3D models used in this project are proudly sourced from open-source libraries under CC0 / open licenses.
 - [Open Source 3D Assets](https://www.opensource3dassets.com) (GitHub: [ToxSam](https://github.com/ToxSam/open-source-3d-assets))
 - [KhronosGroup glTF Sample Models](https://github.com/KhronosGroup/glTF-Sample-Models)
-- [PMNDRS Market](https://market.pmnd.rs/)
 
 We deeply appreciate the original creators for compiling and allowing the use of these comprehensive 3D model databases.
