@@ -10,23 +10,39 @@ const MODEL_CONFIG = {
   'Avocado.glb': 20,
   'Duck.glb': 1,
   'DamagedHelmet.glb': 1.5,
+  'Floating_Island_01_Art.glb': 0.5,
+  'Floating_Island_02_Art.glb': 0.5,
+  'Floating_Island_3_Art.glb': 0.5,
   'Floating_Island_4_Art.glb': 0.5,
+  'Butterfly.glb': 5,
+  'DeerArmature.glb': 0.02,
 };
 
-// 群れに使用するモデルのリストを定義
+// 群れに使用するモデルの全リスト（public/modelsの中身を網羅）
 const STAMPEDE_MODELS = [
-  { url: '/models/Fox.glb', baseScale: 0.02 },
-  { url: '/models/Duck.glb', baseScale: 1 },
   { url: '/models/Avocado.glb', baseScale: 20 },
-  { url: '/models/DamagedHelmet.glb', baseScale: 1.5 }
+  { url: '/models/Bench_01_Art.glb', baseScale: 1 },
+  { url: '/models/Brick_Step_01_Art.glb', baseScale: 1 },
+  { url: '/models/Bush_01_Art.glb', baseScale: 1 },
+  { url: '/models/Bush_02_Art.glb', baseScale: 1 },
+  { url: '/models/Bush_03_art.glb', baseScale: 1 },
+  { url: '/models/Butterfly.glb', baseScale: 5 },
+  { url: '/models/DamagedHelmet.glb', baseScale: 1.5 },
+  { url: '/models/DeerArmature.glb', baseScale: 0.02 },
+  { url: '/models/Duck.glb', baseScale: 1 },
+  { url: '/models/Fence_01_Art.glb', baseScale: 1 },
+  { url: '/models/Fence_01_Post_Art.glb', baseScale: 1 },
+  { url: '/models/Floating_Island_01_Art.glb', baseScale: 0.5 },
+  { url: '/models/Floating_Island_02_Art.glb', baseScale: 0.5 },
+  { url: '/models/Floating_Island_3_Art.glb', baseScale: 0.5 },
+  { url: '/models/Floating_Island_4_Art.glb', baseScale: 0.5 },
+  { url: '/models/Flower_01_a.glb', baseScale: 1 },
+  { url: '/models/Flower_01_b.glb', baseScale: 1 },
+  { url: '/models/Fox.glb', baseScale: 0.02 }
 ];
 
-// 1. Preload models for the scene
-useGLTF.preload('/models/Duck.glb');
-useGLTF.preload('/models/DamagedHelmet.glb');
-useGLTF.preload('/models/Avocado.glb');
-useGLTF.preload('/models/Floating_Island_4_Art.glb');
-useGLTF.preload('/models/Fox.glb');
+// 1. Preload ALL models for the scene
+STAMPEDE_MODELS.forEach(m => useGLTF.preload(m.url));
 
 // Pre-define static positions to avoid array recreation on render
 const DUCK_POS = [-40, 0, 0];
