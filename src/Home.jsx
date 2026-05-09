@@ -14,18 +14,7 @@ const MODEL_CONFIG = {
   // ほかのモデルも必要に応じてここに追加可能
 };
 
-// Load models
-const modelFiles = import.meta.glob('/public/models/*.glb');
-const LOCAL_MODELS = Object.keys(modelFiles).map(path => {
-  const filename = path.split('/').pop();
-  return {
-    url: path.replace('/public', ''),
-    baseScale: MODEL_CONFIG[filename] || 1,
-  };
-});
-
-// 1. Preload all models outside the component (Best Practice)
-LOCAL_MODELS.forEach(m => useGLTF.preload(m.url));
+// 1. Preload models for the scene
 useGLTF.preload('/models/Duck.glb');
 useGLTF.preload('/models/DamagedHelmet.glb');
 useGLTF.preload('/models/Avocado.glb');
