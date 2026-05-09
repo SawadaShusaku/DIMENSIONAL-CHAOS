@@ -209,10 +209,17 @@ function MasterScene() {
   // 以前の LOCAL_MODELS を STAMPEDE_MODELS に差し替え
   const gltfs = useGLTF(STAMPEDE_MODELS.map(m => m.url), true);
 
-  const duckGLTF = useGLTF('/models/Duck.glb');
-  const helmetGLTF = useGLTF('/models/DamagedHelmet.glb');
-  const avocadoGLTF = useGLTF('/models/Avocado.glb');
-  const islandGLTF = useGLTF('/models/Floating_Island_4_Art.glb');
+  // 個別にロードするのではなく、一括ロードした gltfs から必要なモデルを検索して再利用する
+  // これにより、同じリソースを二重に管理することによる競合やエラーを防ぐ
+  const getGLTFByUrl = (url) => {
+    const index = STAMPEDE_MODELS.findIndex(m => m.url === url);
+    return gltfs[index] || { scene: null };
+  };
+
+  const duckGLTF = getGLTFByUrl('/models/Duck.glb');
+  const helmetGLTF = getGLTFByUrl('/models/DamagedHelmet.glb');
+  const avocadoGLTF = getGLTFByUrl('/models/Avocado.glb');
+  const islandGLTF = getGLTFByUrl('/models/Floating_Island_4_Art.glb');
 
   // Generate the Chaos Swarm
   const items = useMemo(() => {
@@ -319,37 +326,41 @@ function MasterScene() {
       }
     }
 
-    // Warp Island Section: Appears 0.85~1.0
+    // 背景の群れ（Chaos Swarm）を常に手前（カメラ方向）へゆっくり流す
+    if (swarmGroupRef.current) {
+      // 全体のスクロール量(0~1)に応じて奥から手前へ移動（基本の流れ）
+      const baseFlow = scroll.offset * 150; 
+      
+      // 最後のワープ演出による加速（バースト移動）
+      const warpT = scroll.range(0.85, 0.15);
+      const easeOutT = 1 - Math.pow(1 - warpT, 2);
+      const warpBurst = easeOutT * 600; 
+
+      swarmGroupRef.current.position.z = baseFlow + warpBurst;
+    }
+
+    // Warp Core Singularity Sequence
     if (warpGroupRef.current) {
       const warpT = scroll.range(0.85, 0.15);
-      // Ease-Out（減速）の計算式
       const easeOutT = 1 - Math.pow(1 - warpT, 2);
 
-      // 一つだけ残らず、他のモデルと同じようにカメラ（z=30）を完全に通り過ぎて背後へ飛んでいく (z=100)
+      // ワープ島もカメラを完全に通り過ぎる
       warpGroupRef.current.position.z = THREE.MathUtils.lerp(-100, 100, easeOutT);
-      // 通り過ぎる過程で少し巨大化
       warpGroupRef.current.scale.setScalar(THREE.MathUtils.lerp(0.1, 2, easeOutT));
-      // 混沌としすぎない、適度な回転
       warpGroupRef.current.rotation.x = state.clock.elapsedTime * 0.5 + THREE.MathUtils.lerp(0, Math.PI * 2, warpT);
       warpGroupRef.current.rotation.y = state.clock.elapsedTime * 0.5 + THREE.MathUtils.lerp(0, Math.PI, warpT);
 
-      // 視野角（FOV）も徐々にゆっくりになる計算式で広げてマイルドにする
       state.camera.fov = THREE.MathUtils.lerp(60, 90, easeOutT);
       state.camera.updateProjectionMatrix();
-    }
 
-    // Cinematic Title Section: すべてのモデルが過ぎ去った後（0.7〜1.0）にフェードインして浮かび上がる
-    if (titleGroupRef.current) {
-      const warpT = scroll.range(0.85, 0.15);
-      const easeOutT = 1 - Math.pow(1 - warpT, 2);
-
-      // 0.7 から 1.0 にかけてOpacityを0から1へ
-      const titleOpacity = Math.max(0, (easeOutT - 0.7) * 3.33);
-      if (titleMatRef.current) titleMatRef.current.opacity = titleOpacity;
-      if (subtitleMatRef.current) subtitleMatRef.current.opacity = titleOpacity;
-
-      // 遠くからゆっくりとカメラに近づいてくる
-      titleGroupRef.current.position.z = THREE.MathUtils.lerp(-50, -10, easeOutT);
+      // Cinematic Title Section: 300個のモデルが去るのを待ってから（0.75〜1.0）フェードイン
+      if (titleGroupRef.current) {
+        // 0.75 から 1.0 にかけてOpacityを0から1へ（少し遅らせて静寂を出す）
+        const titleOpacity = Math.max(0, (easeOutT - 0.75) * 4);
+        if (titleMatRef.current) titleMatRef.current.opacity = titleOpacity;
+        if (subtitleMatRef.current) subtitleMatRef.current.opacity = titleOpacity;
+        titleGroupRef.current.position.z = THREE.MathUtils.lerp(-50, -10, easeOutT);
+      }
     }
   });
 
