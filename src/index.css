@@ -317,3 +317,83 @@ p {
 .btn:active {
   transform: scale(0.98);
 }
+
+/* ========== Mobile Responsive ========== */
+@media (max-width: 768px) {
+  /* Nav */
+  .global-nav {
+    padding: 1rem 1rem;
+    gap: 1rem;
+  }
+  .nav-link {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2.2rem;
+    letter-spacing: 0.1em;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  h3 {
+    font-size: 1.3rem;
+  }
+  p {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Sections */
+  .section {
+    padding: 1rem;
+  }
+
+  /* Library */
+  .page-container {
+    padding-top: 70px;
+  }
+  .library-container {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+  .library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  .tab-btn {
+    min-width: 150px;
+    padding: 0.8rem;
+  }
+  .tab-name {
+    font-size: 0.95rem;
+  }
+  .project-info {
+    padding: 1rem;
+  }
+  .asset-image {
+    height: 120px;
+  }
+}
+
+/* Extra small screens (iPhone SE etc.) */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  p {
+    font-size: 0.9rem;
+  }
+  .library-container {
+    padding: 1rem 0.75rem;
+  }
+  .library-grid {
+    grid-template-columns: 1fr;
+  }
+}

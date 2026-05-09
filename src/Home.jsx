@@ -144,7 +144,7 @@ function BackToTopFox() {
   useFrame((state) => {
     if (groupRef.current) {
       // 一番最後の最後（0.9以上）でのみ表示する
-      const isEnd = scroll.offset > 0.9;
+      const isEnd = scroll.offset > 0.98;
       groupRef.current.visible = isEnd;
 
       if (isEnd) {
@@ -260,16 +260,10 @@ function MasterScene() {
       // Ease-Out（減速）の計算式：最初は速く、終盤にいくほどゆっくりになる
       const easeOutT = 1 - Math.pow(1 - warpT, 2);
 
-      // ワープ時には少し回転を早めて「渦」を表現
-      swarmGroupRef.current.rotation.z = state.clock.getElapsedTime() * 0.02 + THREE.MathUtils.lerp(0, Math.PI * 2, warpT);
-      swarmGroupRef.current.rotation.y = state.clock.getElapsedTime() * 0.01;
-
-      // 伸びる演出（スパゲッティ化）をやめ、等倍のままにする
+      // 等倍のまま（回転なし：Z軸でまっすぐカメラに向かって通り過ぎる）
       swarmGroupRef.current.scale.setScalar(1);
 
-      // 猛スピードで全モデルがカメラ（z=30）を突き抜け、完全に背後（z>100）まで飛んでいく大移動
-      // ユーザーが一気にスクロールすることを考慮し、終盤にゆっくりになるEase-Outを適用
-      swarmGroupRef.current.position.z = THREE.MathUtils.lerp(0, 400, easeOutT);
+      // position.z は後段のbaseFlow + warpBurstで一元管理するため、ここでは設定しない
 
       swarmGroupRef.current.children.forEach((child, i) => {
         child.rotation.x += items[i].speed * 0.01;
@@ -329,12 +323,12 @@ function MasterScene() {
     // 背景の群れ（Chaos Swarm）を常に手前（カメラ方向）へゆっくり流す
     if (swarmGroupRef.current) {
       // 全体のスクロール量(0~1)に応じて奥から手前へ移動（基本の流れ）
-      const baseFlow = scroll.offset * 150; 
+      const baseFlow = scroll.offset * 350; 
       
-      // 最後のワープ演出による加速（バースト移動）
-      const warpT = scroll.range(0.85, 0.15);
-      const easeOutT = 1 - Math.pow(1 - warpT, 2);
-      const warpBurst = easeOutT * 600; 
+      // キツネが通り過ぎた後（0.92〜）にワープ加速（バースト移動）
+      const burstT = scroll.range(0.92, 0.08);
+      const easeOutBurst = 1 - Math.pow(1 - burstT, 2);
+      const warpBurst = easeOutBurst * 300; 
 
       swarmGroupRef.current.position.z = baseFlow + warpBurst;
     }
