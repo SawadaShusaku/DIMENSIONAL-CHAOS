@@ -27,3 +27,8 @@ dist-ssr
 
 # AI Agent Skills (External)
 three-agent-skills/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
