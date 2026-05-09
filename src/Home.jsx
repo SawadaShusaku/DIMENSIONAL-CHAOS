@@ -422,7 +422,7 @@ export default function Home() {
       <div className="canvas-container" style={{ width: '100vw', height: '100vh', position: 'fixed', top: 0, left: 0 }}>
         <Canvas camera={{ position: [0, 0, 30], fov: 60 }}>
           <Suspense fallback={null}>
-            <ScrollControls pages={6} damping={0.25}>
+            <ScrollControls pages={8} damping={0.25}>
               <MasterScene />
 
               <Scroll html style={{ width: '100%' }}>
