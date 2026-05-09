@@ -4,15 +4,22 @@ import { useGLTF, Environment, Stars, Sparkles, Clone, ScrollControls, Scroll, u
 import * as THREE from 'three';
 import { SkeletonUtils } from 'three-stdlib';
 
-// 各モデルの基準スケールを管理する辞書（未定義のものはデフォルト1）
+// 各モデルの基準スケールを管理する辞書
 const MODEL_CONFIG = {
   'Fox.glb': 0.02,
   'Avocado.glb': 20,
   'Duck.glb': 1,
   'DamagedHelmet.glb': 1.5,
   'Floating_Island_4_Art.glb': 0.5,
-  // ほかのモデルも必要に応じてここに追加可能
 };
+
+// 群れに使用するモデルのリストを定義
+const STAMPEDE_MODELS = [
+  { url: '/models/Fox.glb', baseScale: 0.02 },
+  { url: '/models/Duck.glb', baseScale: 1 },
+  { url: '/models/Avocado.glb', baseScale: 20 },
+  { url: '/models/DamagedHelmet.glb', baseScale: 1.5 }
+];
 
 // 1. Preload models for the scene
 useGLTF.preload('/models/Duck.glb');
@@ -183,7 +190,8 @@ function MasterScene() {
   const scroll = useScroll();
 
   // 2. Load multiple GLTFs at once using an array (fixes Rule of Hooks violation)
-  const gltfs = useGLTF(LOCAL_MODELS.map(m => m.url), true);
+  // 以前の LOCAL_MODELS を STAMPEDE_MODELS に差し替え
+  const gltfs = useGLTF(STAMPEDE_MODELS.map(m => m.url), true);
 
   const duckGLTF = useGLTF('/models/Duck.glb');
   const helmetGLTF = useGLTF('/models/DamagedHelmet.glb');
@@ -193,11 +201,11 @@ function MasterScene() {
   // Generate the Chaos Swarm
   const items = useMemo(() => {
     const arr = [];
-    if (LOCAL_MODELS.length === 0) return arr;
+    if (STAMPEDE_MODELS.length === 0) return arr;
     for (let i = 0; i < 150; i++) {
-      const modelIndex = Math.floor(Math.random() * LOCAL_MODELS.length);
+      const modelIndex = Math.floor(Math.random() * STAMPEDE_MODELS.length);
 
-      const model = LOCAL_MODELS[modelIndex];
+      const model = STAMPEDE_MODELS[modelIndex];
       const angle = Math.random() * Math.PI * 2;
       // もっとごちゃごちゃした感じを集約させる（半径を狭くする）
       const radius = 20 + Math.random() * 40;
