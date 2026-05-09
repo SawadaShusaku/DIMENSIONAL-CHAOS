@@ -1,0 +1,319 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #050505;
+  color: #fff;
+  font-family: 'Inter', 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Global Nav */
+.global-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+  pointer-events: auto;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 1.1rem;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.nav-link:hover {
+  color: #ff00cc;
+  text-shadow: 0 0 10px #ff00cc;
+}
+
+/* Canvas & Scroll Setup */
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.scroll-container {
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.section.pointer-none {
+  pointer-events: none;
+}
+
+/* Page Containers */
+.page-container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(circle at top, #1a0033 0%, #050505 100%);
+}
+
+/* Typography */
+h1 {
+  font-size: 5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 204, 0.5));
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #00ffff;
+}
+
+p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.chaos-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 40%, rgba(10, 0, 20, 0.9) 150%);
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: overlay;
+}
+
+/* Glassmorphism Library UI */
+.library-container {
+  width: 95%;
+  max-width: 1400px;
+  background: rgba(20, 20, 35, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  margin-bottom: 4rem;
+}
+
+.library-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  .library-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Tabs */
+.project-tabs {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 900px) {
+  .project-tabs {
+    flex-direction: column;
+    width: 280px;
+    padding-right: 1rem;
+    padding-bottom: 0;
+  }
+}
+
+/* Scrollbar styling for tabs */
+.project-tabs::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.project-tabs::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+.project-tabs::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 204, 0.4);
+  border-radius: 4px;
+}
+
+.tab-btn {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 0, 204, 0.1);
+  border-color: rgba(255, 0, 204, 0.3);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, rgba(255, 0, 204, 0.3), rgba(51, 51, 255, 0.3));
+  border-color: #ff00cc;
+  box-shadow: 0 0 15px rgba(255, 0, 204, 0.2);
+}
+
+.tab-name {
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.tab-creator {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
+/* Assets View */
+.assets-view {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.project-info {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 16px;
+  border-left: 4px solid #00ffff;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.asset-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.asset-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 0, 204, 0.1);
+  border-color: rgba(255, 0, 204, 0.5);
+  box-shadow: 0 15px 30px rgba(255, 0, 204, 0.3);
+}
+
+.asset-image {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.asset-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  word-break: break-word;
+}
+
+.loader {
+  font-size: 1.5rem;
+  color: #ff00cc;
+  text-align: center;
+  padding: 3rem;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+.btn {
+  background: linear-gradient(135deg, #ff00cc, #3333ff);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
