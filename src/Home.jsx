@@ -218,15 +218,16 @@ function MasterScene() {
   const items = useMemo(() => {
     const arr = [];
     if (STAMPEDE_MODELS.length === 0) return arr;
-    for (let i = 0; i < 150; i++) {
+    // 背景の密度を倍増（150 -> 300）
+    for (let i = 0; i < 300; i++) {
       const modelIndex = Math.floor(Math.random() * STAMPEDE_MODELS.length);
 
       const model = STAMPEDE_MODELS[modelIndex];
       const angle = Math.random() * Math.PI * 2;
-      // もっとごちゃごちゃした感じを集約させる（半径を狭くする）
-      const radius = 20 + Math.random() * 40;
-      // 背景を少し離す（さらに奥へ押し込む）
-      const z = -80 - Math.random() * 150;
+      // 半径を調整
+      const radius = 15 + Math.random() * 60;
+      // Z軸（奥行き）をより深く（-80 ~ -580）設定して、空間の広がりを出す
+      const z = -80 - Math.random() * 500;
 
       const x = Math.cos(angle) * radius;
       const y = Math.sin(angle) * radius;
